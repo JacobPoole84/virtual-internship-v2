@@ -1,0 +1,189 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AiOutlineHome, AiOutlineSearch } from "react-icons/ai";
+import { BsBookmark } from "react-icons/bs";
+import { RiPlantLine } from "react-icons/ri";
+import { AiOutlineSetting } from "react-icons/ai";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { FiLogOut } from "react-icons/fi";
+import { logOut } from "@/lib/firebase/auth";
+import { useAuth } from "@/lib/firebase/AuthContext";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
+import { ModalContext } from "./modals/providers";
+
+type TextSizeOption = "small" | "medium" | "large" | "x-large";
+
+interface SidebarProps {
+  showTextSizeControls?: boolean;
+  selectedTextSize?: TextSizeOption;
+  onTextSizeChange?: (size: TextSizeOption) => void;
+}
+
+const textSizeOptions: Array<{ size: TextSizeOption; className: string }> = [
+  { size: "small", className: "text-sm" },
+  { size: "medium", className: "text-base" },
+  { size: "large", className: "text-lg" },
+  { size: "x-large", className: "text-xl" },
+];
+
+const topLinks = [
+  { href: "/for-you", label: "For You", icon: AiOutlineHome, disabled: false },
+  { href: "/library", label: "My Library", icon: BsBookmark, disabled: false },
+  {
+    href: "/highlights",
+    label: "Highlights",
+    icon: RiPlantLine,
+    disabled: true,
+  },
+  { href: "/search", label: "Search", icon: AiOutlineSearch, disabled: true },
+];
+
+const bottomLinks = [
+  {
+    href: "/settings",
+    label: "Settings",
+    icon: AiOutlineSetting,
+    disabled: false,
+  },
+  {
+    href: "/help",
+    label: "Help & Support",
+    icon: AiOutlineQuestionCircle,
+    disabled: true,
+  },
+];
+
+export default function Sidebar({
+  showTextSizeControls = false,
+  selectedTextSize = "medium",
+  onTextSizeChange,
+}: SidebarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { user } = useAuth();
+  const { setShowSignInModal } = useContext(ModalContext);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  return (
+    <aside className="fixed top-0 left-0 h-full w-[200px] bg-[#f7faf9] flex flex-col justify-between z-50 border-r border-[#e1e7ea]">
+      <div>
+        <div className="flex items-center justify-center py-4">
+          <Link href="/for-you">
+            <Image src="/logo.png" alt="Logo" width={160} height={40} />
+          </Link>
+        </div>
+        <nav className="flex flex-col mt-4">
+          {topLinks.map(({ href, label, icon: Icon, disabled }) =>
+            disabled ? (
+              <span
+                key={href}
+                className="flex items-center gap-2 px-6 py-3 text-sm text-[#394547] opacity-50 cursor-not-allowed"
+              >
+                <Icon size={22} />
+                {label}
+              </span>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-2 px-6 py-3 text-sm transition-colors hover:bg-[#f0f4f3] ${
+                  pathname === href
+                    ? "text-[#2bd97c] font-semibold"
+                    : "text-[#394547]"
+                }`}
+              >
+                <Icon size={22} />
+                {label}
+              </Link>
+            ),
+          )}
+        </nav>
+        {showTextSizeControls && (
+          <div className="px-6 pt-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6b757b] mb-3">
+              Text size
+            </p>
+            <div className="flex items-center gap-2">
+              {textSizeOptions.map(({ size, className }) => {
+                const isActive = selectedTextSize === size;
+
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => onTextSizeChange?.(size)}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${
+                      isActive
+                        ? "border-[#2bd97c] bg-[#032b41] text-white"
+                        : "border-[#d7e1e5] bg-white text-[#394547] hover:bg-[#eef4f2]"
+                    }`}
+                    aria-label={`Set text size to ${size}`}
+                    aria-pressed={isActive}
+                  >
+                    <span className={`font-semibold leading-none ${className}`}>
+                      Aa
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="mb-4">
+        <nav className="flex flex-col">
+          {bottomLinks.map(({ href, label, icon: Icon, disabled }) =>
+            disabled ? (
+              <span
+                key={href}
+                className="flex items-center gap-2 px-6 py-3 text-sm text-[#394547] opacity-50 cursor-not-allowed"
+              >
+                <Icon size={22} />
+                {label}
+              </span>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-2 px-6 py-3 text-sm transition-colors hover:bg-[#f0f4f3] ${
+                  pathname === href
+                    ? "text-[#2bd97c] font-semibold"
+                    : "text-[#394547]"
+                }`}
+              >
+                <Icon size={22} />
+                {label}
+              </Link>
+            ),
+          )}
+          {user ? (
+            <button
+              onClick={async () => {
+                setIsLoggingOut(true);
+                await logOut();
+                setIsLoggingOut(false);
+              }}
+              className="flex items-center gap-2 px-6 py-3 text-sm text-[#394547] transition-colors hover:bg-[#f0f4f3] w-full"
+              disabled={isLoggingOut}
+            >
+              <FiLogOut size={22} />
+              {isLoggingOut ? "Logging out..." : "Logout"}
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowSignInModal(true)}
+              className="flex items-center gap-2 px-6 py-3 text-sm text-[#394547] transition-colors hover:bg-[#f0f4f3] w-full"
+            >
+              <FiLogOut size={22} />
+              Login
+            </button>
+          )}
+        </nav>
+      </div>
+    </aside>
+  );
+}

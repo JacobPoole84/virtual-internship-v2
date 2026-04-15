@@ -4,9 +4,12 @@ import { AiFillFileText, AiFillBulb, AiFillAudio } from "react-icons/ai";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { BiCrown } from "react-icons/bi";
 import { RiLeafLine } from "react-icons/ri";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ModalContext } from "@/components/modals/providers";
 
 export default function Home() {
+  const { setShowSignInModal } = useContext(ModalContext);
+
   // Headings for both sections
   const firstHeadings = [
     "Enhance your knowledge",
@@ -44,7 +47,7 @@ export default function Home() {
             <img className="nav__img" src="./logo.png" alt="logo" />
           </figure>
           <ul className="nav__list--wrapper">
-            <li className="nav__list nav__list--login">Login</li>
+            <li className="nav__list nav__list--login" onClick={() => setShowSignInModal(true)}>Login</li>
             <li className="nav__list nav__list--mobile">About</li>
             <li className="nav__list nav__list--mobile">Contact</li>
             <li className="nav__list nav__list--mobile">Help</li>
@@ -67,7 +70,7 @@ export default function Home() {
                   <br className="remove--tablet" />
                   and even people who don't like to read.
                 </div>
-                <button className="btn home__cta--btn">Login</button>
+                <button className="btn home__cta--btn" onClick={() => setShowSignInModal(true)}>Login</button>
               </div>
               <figure className="landing__image--mask">
                 <img src="./landing.png" alt="landing" />
@@ -270,7 +273,7 @@ export default function Home() {
               </div>
             </div>
             <div className="reviews__btn--wrapper">
-              <button className="btn home__cta--btn">Login</button>
+              <button className="btn home__cta--btn" onClick={() => setShowSignInModal(true)}>Login</button>
             </div>
           </div>
         </div>
