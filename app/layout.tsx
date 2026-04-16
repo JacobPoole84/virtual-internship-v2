@@ -4,6 +4,7 @@ import "./globals.css";
 import ModalProvider from "@/components/modals/providers";
 import { AuthProvider } from "@/lib/firebase/AuthContext";
 import { SavedBooksProvider } from "@/components/SavedBooksContext";
+import { SidebarProvider } from "@/components/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,9 +39,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <AuthProvider>
           <SavedBooksProvider>
-            <ModalProvider>
-              {children}
-            </ModalProvider>
+            <SidebarProvider>
+              <ModalProvider>
+                {children}
+              </ModalProvider>
+            </SidebarProvider>
           </SavedBooksProvider>
         </AuthProvider>
       </body>

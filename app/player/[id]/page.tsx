@@ -97,7 +97,7 @@ export default function PlayerPage() {
         selectedTextSize={textSize}
         onTextSizeChange={setTextSize}
       />
-      <div className="ml-[200px] flex-1 flex flex-col">
+      <div className="md:ml-[200px] flex-1 flex flex-col">
         <SearchBar />
         <main className="flex-1 p-6 pb-28 max-w-[1070px] w-full mx-auto">
           {loading ? (
@@ -116,7 +116,7 @@ export default function PlayerPage() {
             </section>
           )}
         </main>
-        <div className="fixed bottom-0 left-[200px] right-0 z-40">
+        <div className="fixed bottom-0 left-0 md:left-[200px] right-0 z-40">
           <AudioPlayer track={track} onTrackEnded={handleTrackEnded} />
         </div>
       </div>

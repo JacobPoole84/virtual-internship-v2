@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import { SidebarToggle } from "./Sidebar";
 
 interface SearchResultBook {
   id: string;
@@ -78,8 +79,9 @@ export default function SearchBar() {
     query.trim().length > 0 && (isLoading || results.length > 0 || hasSearched);
 
   return (
-    <nav className="flex items-center justify-end w-full max-w-[1070px] mx-auto border-b border-[#e1e7ea] px-8 py-3">
-      <div className="relative w-[300px]">
+    <nav className="flex items-center justify-between w-full max-w-[1070px] mx-auto border-b border-[#e1e7ea] px-4 md:px-8 py-3 gap-4 isolate relative z-10">
+      <SidebarToggle />
+      <div className="relative w-full max-w-[300px] ml-auto">
         <input
           ref={inputRef}
           type="text"

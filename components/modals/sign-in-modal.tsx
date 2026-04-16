@@ -71,7 +71,7 @@ function SignInModal({
               loginGuest()
                 .then(() => {
                   setShowSignInModal(false);
-                  // Stay on the current page
+                  router.push("/for-you");
                 })
                 .catch((error) => {
                   setError(error.message);
@@ -107,7 +107,7 @@ function SignInModal({
                 signInWithGoogle()
                   .then(() => {
                     setShowSignInModal(false);
-                    // Stay on the current page
+                    router.push("/for-you");
                   })
                   .catch((error) => {
                     setError(error.message);
@@ -150,7 +150,7 @@ function SignInModal({
                 login(email, password)
                   .then(() => {
                     setShowSignInModal(false);
-                    // Stay on the current page
+                    router.push("/for-you");
                   })
                   .catch((error) => {
                     setError(error.message);

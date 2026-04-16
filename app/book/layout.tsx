@@ -9,7 +9,7 @@ export default function BookLayout({
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="ml-[200px] flex-1 flex flex-col">
+      <div className="md:ml-[200px] flex-1 flex flex-col">
         <SearchBar />
         <main className="flex-1 p-6">{children}</main>
       </div>
