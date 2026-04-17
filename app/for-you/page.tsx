@@ -49,7 +49,7 @@ function SelectedBookSkeleton() {
 
 function BookRowSkeleton() {
   return (
-    <div className="grid grid-flow-col auto-cols-[200px] gap-4 overflow-x-auto scrollbar-hide pb-2">
+    <div className="grid grid-flow-col auto-cols-[140px] sm:auto-cols-[170px] md:auto-cols-[200px] gap-3 sm:gap-4 overflow-x-auto scrollbar-hide pb-2">
       {Array.from({ length: 5 }).map((_, idx) => (
         <div key={idx} className="p-3 pt-8 rounded-2xl animate-pulse">
           <div className="w-full aspect-square rounded bg-[#d8e3e0]" />
@@ -278,7 +278,7 @@ export default function ForYouPage() {
             <BookRowSkeleton />
           ) : (
             recommendedBooks.length > 0 && (
-              <div className="grid grid-flow-col auto-cols-[200px] gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
+              <div className="grid grid-flow-col auto-cols-[140px] sm:auto-cols-[170px] md:auto-cols-[200px] gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
                 {recommendedBooks.map((book) => (
                   <div
                     key={book.id}
@@ -338,7 +338,7 @@ export default function ForYouPage() {
             <BookRowSkeleton />
           ) : (
             suggestedBooks.length > 0 && (
-              <div className="grid grid-flow-col auto-cols-[200px] gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
+              <div className="grid grid-flow-col auto-cols-[140px] sm:auto-cols-[170px] md:auto-cols-[200px] gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
                 {suggestedBooks.map((book) => (
                   <div
                     key={book.id}
